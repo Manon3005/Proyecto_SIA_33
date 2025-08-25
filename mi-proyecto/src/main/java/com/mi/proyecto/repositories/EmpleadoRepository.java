@@ -74,6 +74,17 @@ public class EmpleadoRepository {
     }
     
 }
+
+ //?? creo que el metodo deberia verificar si es que el mismo ticket lo tiene otro empleado
+    public boolean asignarTicketEmpleado(String rutEmpleado, Ticket ticket){
+        Empleado empleado = buscarEmpleadoPorRut(rutEmpleado);
+        if(empleado != null){
+            empleado.getTickets().add(ticket);
+            return true;
+        }
+        return false;
+    }
+    
   /**
      * ???
      * 1. generar reporte de tickets del empleado
