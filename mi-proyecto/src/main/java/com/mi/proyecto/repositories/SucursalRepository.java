@@ -27,4 +27,8 @@ public class SucursalRepository {
         this.sucursales = sucursales;
     }
     
+    public boolean agregarSucursal(Sucursal sucursal){
+       sucursal.setId(sucursales.size());
+       return sucursales.add(sucursal);
+    }
 }

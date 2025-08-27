@@ -65,5 +65,19 @@ public class Cliente {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+    
+    public boolean agregarTicket(Ticket ticket) {
+       for (Ticket t: tickets) {
+           if (t.getId() == ticket.getId()) {
+               return false;
+           }
+       }
+       tickets.add(ticket);
+       return true;
+    }
 
+    @Override
+    public String toString() {
+        return "Cliente{" + "rut=" + rut + ", nombre=" + nombre + ", apellido=" + apellido + ", correo=" + correo + '}';
+    }
 }

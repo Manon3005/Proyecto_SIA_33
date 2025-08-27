@@ -66,4 +66,18 @@ public class Empleado {
         this.tickets = tickets;
     }
     
+    public boolean agregarTicket(Ticket ticket) {
+        for (Ticket t: tickets) {
+            if (t.getId() == ticket.getId()) {
+                return false;
+            }
+        }
+        tickets.add(ticket);
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleado{" + "rut=" + rut + ", nombre=" + nombre + ", apellido=" + apellido + ", correo=" + correo + '}';
+    }
 }

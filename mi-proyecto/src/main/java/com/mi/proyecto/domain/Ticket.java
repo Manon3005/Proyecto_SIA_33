@@ -5,6 +5,7 @@
 package com.mi.proyecto.domain;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  *
@@ -21,10 +22,10 @@ public class Ticket {
     private Cliente cliente;
     private Empleado empleado;
 
-    public Ticket(String titulo, String descripcion, LocalDateTime fechaCreacion, Cliente cliente) {
+    public Ticket(String titulo, String descripcion, Cliente cliente) {
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.fechaCreacion = fechaCreacion;
+        this.fechaCreacion = LocalDateTime.now(ZoneId.of("America/Santiago"));
         this.cliente = cliente;
         this.estado = EstadoTicket.PENDIENTE;
         this.satisfaccion = 0;
@@ -104,4 +105,8 @@ public class Ticket {
         this.empleado = empleado;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" + "id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", estado=" + estado + ", satisfaccion=" + satisfaccion + ", fechaCreacion=" + fechaCreacion + ", fechaFinalizacion=" + fechaFinalizacion + '}';
+    }
 }

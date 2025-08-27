@@ -27,4 +27,31 @@ public class TicketRepository {
         this.tickets = tickets;
     }
     
+    public boolean agregarTicket(Ticket ticket){
+       ticket.setId(tickets.size());
+       return tickets.add(ticket);
+    }
+    
+    public Ticket buscarPorId(int id) {
+        for (Ticket t: tickets) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public String toString(){
+        String resultado;
+        if(tickets.isEmpty()){
+            resultado = "No hay tickets registrados";
+        }else{
+            resultado = "";
+            for(Ticket t : tickets){
+                resultado += "- " + t.toString() + "\n";
+            }
+        }
+        return resultado;
+    }
 }

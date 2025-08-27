@@ -27,10 +27,10 @@ public class EmpleadoRepository {
         this.empleados = empleados;
     }
 
-    // funicion que verifica y agrega un empleado que no este en la lista
+    // funcion que verifica y agrega un empleado que no este en la lista
     public boolean agregarEmpleado(Empleado empleado){
         if(buscarEmpleadoPorRut(empleado.getRut())!=null){
-           return false; // Ya existe un empleado con el mismo rut 
+           return false; // ya existe un empleado con el mismo rut 
         }
         return empleados.add(empleado);
     }
@@ -44,7 +44,7 @@ public class EmpleadoRepository {
         return null;
     }
     
-    public Empleado empleadoConMasTickets(){
+    public Empleado getEmpleadoConMasTickets(){
         if(empleados.isEmpty()){
             System.out.println("No hay empleados registrados");
            return null;
@@ -73,25 +73,17 @@ public class EmpleadoRepository {
         return maxEmpleado;  
     }
     
-}
-
- //?? creo que el metodo deberia verificar si es que el mismo ticket lo tiene otro empleado
-    public boolean asignarTicketEmpleado(String rutEmpleado, Ticket ticket){
-        Empleado empleado = buscarEmpleadoPorRut(rutEmpleado);
-        if(empleado != null){
-            empleado.getTickets().add(ticket);
-            return true;
+    @Override
+    public String toString(){
+        String resultado;
+        if(empleados.isEmpty()){
+            resultado = "No hay empleados registrados";
+        }else{
+            resultado = "";
+            for(Empleado e : empleados){
+                resultado += "- " + e.toString() + "\n";
+            }
         }
-        return false;
+        return resultado;
     }
-    
-  /**
-     * ???
-     * 1. generar reporte de tickets del empleado
-     * 2. generar reporte de los empleados
-     * 3. cambiar estado de los tickets
-     * 4. agregar empleado pero que se verifique que no esta en la lista
-     * 5. quiza hacer una funcion de reasignar el ticket a un empleado que tenga menos trabajo 
-     * ???
-     */
-    
+}

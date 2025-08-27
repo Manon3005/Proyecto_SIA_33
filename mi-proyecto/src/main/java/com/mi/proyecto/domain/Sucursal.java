@@ -4,6 +4,7 @@
  */
 package com.mi.proyecto.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,17 +12,25 @@ import java.util.List;
  * @author manon
  */
 public class Sucursal {
-    private String id;
+    private int id;
     private String nombre;
     private String ubicación;
     private List<Cliente> clientes;
     private List<Empleado> empleados;
 
-    public String getId() {
+    public Sucursal(int id, String nombre, String ubicación) {
+        this.id = id;
+        this.nombre = nombre;
+        this.ubicación = ubicación;
+        clientes = new ArrayList<>();
+        empleados = new ArrayList<>();
+    }
+     
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -57,5 +66,28 @@ public class Sucursal {
         this.empleados = empleados;
     }
     
+    public boolean agregarCliente(Cliente cliente) {
+        for (Cliente c: clientes) {
+            if (c.getRut().equals(cliente.getRut())) {
+                return false;
+            }
+        }
+        clientes.add(cliente);
+        return true;
+    }
     
+    public boolean agregarEmpleado(Empleado empleado) {
+        for (Empleado e: empleados) {
+            if (e.getRut().equals(empleado.getRut())) {
+                return false;
+            }
+        }
+        empleados.add(empleado);
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Sucursal{" + "id=" + id + ", nombre=" + nombre + ", ubicaci\u00f3n=" + ubicación + '}';
+    } 
 }

@@ -27,7 +27,7 @@ public class ClienteRepository {
         this.clientes = clientes;
     }
     
-   public boolean agregarCliente(Cliente cliente){
+    public boolean agregarCliente(Cliente cliente){
        if(cliente == null || cliente.getRut()== null || cliente.getRut().isEmpty()){
            System.out.println("Cliente invalido, no se puede agregar.");
            return false;
@@ -52,8 +52,8 @@ public class ClienteRepository {
        return null;
     }
     
-    public boolean actualizarCliente(String rut,Cliente nuevoCliente){
-       for(int i=0;i<clientes.size();i++){
+    public boolean actualizarCliente(String rut, Cliente nuevoCliente){
+       for (int i=0 ; i<clientes.size() ; i++){
            if(clientes.get(i).getRut().equals(rut)){
                clientes.set(i, nuevoCliente);
                return true;
@@ -62,7 +62,7 @@ public class ClienteRepository {
        return false;
    }
 
-    public Cliente ClienteConMasTicket(){
+    public Cliente getClienteConMasTicket(){
        if(clientes ==null||clientes.isEmpty()){
            System.out.println("No hay clientes registrados");
            return null;
@@ -81,43 +81,20 @@ public class ClienteRepository {
        if(maxTickets == 0){
            System.out.println("Ningun cliente tiene tickets");
        }
-       return maxCliente;// cliente con mas tickets
+       return maxCliente;
    }
-
     
-    public void listarClientes(){
-       if(clientes.isEmpty()){
-           System.out.println("No hay clientes registrados");
-       }else{
-           for(Cliente c : clientes){
-               System.out.println(c.getRut()+" - "+ c.getNombre() +" "+c.getApellido());
-           }
-       }
+    @Override
+    public String toString(){
+        String resultado;
+        if(clientes.isEmpty()){
+            resultado = "No hay clientes registrados";
+        }else{
+            resultado = "";
+            for(Cliente c : clientes){
+                resultado += "- " + c.toString() + "\n";
+            }
+        }
+        return resultado;
     }
-
-    
-    // esto deberia ir aqui? o en repositorio ticket
-   // sera necesario esta metodo?
-    
-   public boolean agregarTicketACliente(String rut,Ticket ticket){
-       Cliente cliente = buscarPorRut(rut);
-       if(cliente ==null){
-           System.out.println("No se encontro el cliente con rut "+ rut);
-           return false;
-       }
-       
-       cliente.getTickets().add(ticket);
-       return true;
-   }
-   
-  /**
-   * ???
-   * 1.obtener tickets del cliente
-   * 2.podriamos calcular el promedio de satisfaccion del cliente
-   * 3.obtener todos los clientes con tickets abiertos para seguir los casos activos
-   * ???
-   */
-    
-    
-    
 }
