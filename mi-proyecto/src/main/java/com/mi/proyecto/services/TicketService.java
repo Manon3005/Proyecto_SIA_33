@@ -30,6 +30,14 @@ public class TicketService {
         return null;
     }
     
+    public Ticket crearTicket(Ticket nuevoTicket) {
+        if (ticketRepo.agregarTicket(nuevoTicket)) {
+            nuevoTicket.getCliente().agregarTicket(nuevoTicket);
+            return nuevoTicket;
+        }
+        return null;
+    }
+    
     public boolean asignarTicketEmpleado(Empleado empleado, Ticket ticket){
         if (empleado.agregarTicket(ticket)) {
             ticket.setEmpleado(empleado);

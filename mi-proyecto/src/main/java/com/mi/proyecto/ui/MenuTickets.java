@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MenuTickets {
-    private ClienteRepository clienteRepo;
-    private TicketService ticketService;
-    private BufferedReader lector;
+    private final ClienteRepository clienteRepo;
+    private final TicketService ticketService;
+    private final BufferedReader lector;
 
     public MenuTickets(ClienteRepository clienteRepo, TicketService ticketService) {
         this.clienteRepo = clienteRepo;
@@ -36,24 +36,30 @@ public class MenuTickets {
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
             String input = lector.readLine();
+            
             if (input == null || input.trim().isEmpty()) {
-                System.out.println("Debe ingresar un numero. Intente nuevamente.");
+                System.out.println("Debe ingresar algo. Intente nuevamente.");
                 opcion = -1;
             } else {
-                opcion = Integer.parseInt(input);
+                try {
+                    opcion = Integer.parseInt(input);
 
-                switch (opcion) {
-                    case 1:
-                        agregarTicket();
-                        break;
-                    case 2:
-                        listarTickets();
-                        break;
-                    case 0:
-                        System.out.println("Saliendo del menu...");
-                        break;
-                    default:
-                        System.out.println("Opcion invalida, intente nuevamente.");
+                    switch (opcion) {
+                        case 1:
+                            agregarTicket();
+                            break;
+                        case 2:
+                            listarTickets();
+                            break;
+                        case 0:
+                            System.out.println("Saliendo del menu...");
+                            break;
+                        default:
+                            System.out.println("Opcion invalida, intente nuevamente.");
+                    }
+                } catch (NumberFormatException e) {
+                    opcion = -1;
+                    System.out.println("Debe ingresar un numero (ej: 1, 2, 0). Intente nuevamente.");
                 }
             }
         } while (opcion != 0);
@@ -69,12 +75,19 @@ public class MenuTickets {
             System.out.println("Cliente no encontrado.");
             return;
         }
+        
+        String titulo;
+        String descripcion;
 
-        System.out.print("Titulo del ticket: ");
-        String titulo = lector.readLine();
-
-        System.out.print("Descripcion del ticket: ");
-        String descripcion = lector.readLine();
+        do {
+            System.out.print("Titulo del ticket: ");
+            titulo = lector.readLine();
+        } while (titulo.isEmpty());
+        
+        do {
+            System.out.print("Descripcion del ticket: ");
+            descripcion = lector.readLine();
+        } while (descripcion.isEmpty());
 
         if (ticketService.crearTicket(cliente, titulo, descripcion) != null) {
             System.out.println("Ticket creado!");
@@ -99,7 +112,7 @@ public class MenuTickets {
         } else {
             System.out.println("Tickets de " + cliente.getNombre() + ":");
             for (Ticket t : cliente.getTickets()) {
-                System.out.println("- [" + t.getId() + "] " + t.getTitulo() + " | Estado: " + t.getEstado());
+                System.out.println("- ID: " + t.getId() + " | " + t.getTitulo() + " | Estado: " + t.getEstado());
             }
         }
     }

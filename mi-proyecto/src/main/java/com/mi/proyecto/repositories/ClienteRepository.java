@@ -48,6 +48,22 @@ public class ClienteRepository {
         clientes.replace(nuevoCliente.getRut(), nuevoCliente);
     }
     
+    public void actualizarCliente(String rut, String nuevoNombre, String nuevoApellido, String nuevoCorreo){
+        Cliente cliente = clientes.get(rut);
+        if (cliente == null) {
+            return;
+        }
+        if (nuevoNombre!= null && !nuevoNombre.isEmpty()) {
+            cliente.setNombre(nuevoNombre);
+        }
+        if (nuevoApellido!= null && !nuevoApellido.isEmpty()) {
+            cliente.setApellido(nuevoApellido);
+        }
+        if (nuevoCorreo!= null && !nuevoCorreo.isEmpty()) {
+            cliente.setCorreo(nuevoCorreo);
+        }
+    }
+    
     @Override
     public String toString(){
         String resultado;
