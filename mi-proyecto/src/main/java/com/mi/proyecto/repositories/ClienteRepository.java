@@ -5,84 +5,48 @@
 package com.mi.proyecto.repositories;
 
 import com.mi.proyecto.domain.Cliente;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author manon
  */
 public class ClienteRepository {
-    private List<Cliente> clientes;
+    private Map<String, Cliente> clientes = new HashMap<>();
 
     public ClienteRepository() {
-        clientes = new ArrayList<>();
+        clientes = new HashMap<>();
     }
 
-    public List<Cliente> getClientes() {
+    public Map<String, Cliente> getClientes() {
         return clientes;
     }
 
-    public void setClientes(List<Cliente> clientes) {
+    public void setClientes(Map<String, Cliente> clientes) {
         this.clientes = clientes;
     }
     
-    public boolean agregarCliente(Cliente cliente){
-       if(cliente == null || cliente.getRut()== null || cliente.getRut().isEmpty()){
+    public boolean agregarCliente(Cliente cliente) {
+        if(cliente == null || cliente.getRut()== null || cliente.getRut().isEmpty()){
            System.out.println("Cliente invalido, no se puede agregar.");
            return false;
-       }
-       
-       for(Cliente c : clientes){
-           if(c.getRut().equals(cliente.getRut())){
-               System.out.println("El cliente con rut: "+cliente.getRut()+" ya existe.");
-               return false;
-           }
-       }
-       clientes.add(cliente);
-       return true;
-   }
-    
-    public Cliente buscarPorRut(String rut){
-       for(Cliente c: clientes){
-           if(c.getRut().equals(rut)){
-               return c;
-           }
-       }
-       return null;
+        }
+        if (clientes.containsKey(cliente.getRut())) {
+            System.out.println("Cliente con RUT ya existe: " + cliente.getRut());
+            return false;
+        }
+        clientes.put(cliente.getRut(), cliente);
+        return true;
     }
     
-    public boolean actualizarCliente(String rut, Cliente nuevoCliente){
-       for (int i=0 ; i<clientes.size() ; i++){
-           if(clientes.get(i).getRut().equals(rut)){
-               clientes.set(i, nuevoCliente);
-               return true;
-           }
-       }
-       return false;
-   }
-
-    public Cliente getClienteConMasTicket(){
-       if(clientes ==null||clientes.isEmpty()){
-           System.out.println("No hay clientes registrados");
-           return null;
-       }
-       Cliente maxCliente = null;
-       int maxTickets = 0;
-       for(Cliente c : clientes){
-          if(c!=null && c.getTickets()!= null){
-            int cantTickets = c.getTickets().size();
-            if(cantTickets > maxTickets){
-                maxTickets = cantTickets;
-                maxCliente = c;
-            }
-          }
-       }
-       if(maxTickets == 0){
-           System.out.println("Ningun cliente tiene tickets");
-       }
-       return maxCliente;
-   }
+    public Cliente buscarPorRut(String rut){
+       return clientes.get(rut);
+    }
+    
+    public void actualizarCliente(Cliente nuevoCliente){
+        clientes.replace(nuevoCliente.getRut(), nuevoCliente);
+    }
     
     @Override
     public String toString(){
@@ -91,7 +55,7 @@ public class ClienteRepository {
             resultado = "No hay clientes registrados";
         }else{
             resultado = "";
-            for(Cliente c : clientes){
+            for(Cliente c : clientes.values()){
                 resultado += "- " + c.toString() + "\n";
             }
         }

@@ -35,20 +35,26 @@ public class MenuTickets {
             System.out.println("2. Listar Tickets de un Cliente");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
-            opcion = Integer.parseInt(lector.readLine());
+            String input = lector.readLine();
+            if (input == null || input.trim().isEmpty()) {
+                System.out.println("Debe ingresar un numero. Intente nuevamente.");
+                opcion = -1;
+            } else {
+                opcion = Integer.parseInt(input);
 
-            switch (opcion) {
-                case 1:
-                    agregarTicket();
-                    break;
-                case 2:
-                    listarTickets();
-                    break;
-                case 0:
-                    System.out.println("Saliendo del menu...");
-                    break;
-                default:
-                    System.out.println("Opcion invalida, intente nuevamente.");
+                switch (opcion) {
+                    case 1:
+                        agregarTicket();
+                        break;
+                    case 2:
+                        listarTickets();
+                        break;
+                    case 0:
+                        System.out.println("Saliendo del menu...");
+                        break;
+                    default:
+                        System.out.println("Opcion invalida, intente nuevamente.");
+                }
             }
         } while (opcion != 0);
     }
