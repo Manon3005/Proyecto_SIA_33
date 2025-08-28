@@ -2,6 +2,8 @@ package com.domain;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ticket {
     private int id;
@@ -13,6 +15,7 @@ public class Ticket {
     private LocalDateTime fechaFinalizacion;
     private Cliente cliente;
     private Empleado empleado;
+    private List<String> historia;
 
     public Ticket(String titulo, String descripcion, Cliente cliente) {
         this.titulo = titulo;
@@ -23,6 +26,7 @@ public class Ticket {
         this.satisfaccion = 0;
         this.fechaFinalizacion = null;
         this.empleado = null;
+        this.historia = new ArrayList<>();
     }
 
     public int getId() {
@@ -95,6 +99,18 @@ public class Ticket {
 
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
+    }
+
+    public List<String> getHistoria() {
+        return historia;
+    }
+
+    public void setHistoria(List<String> historia) {
+        this.historia = historia;
+    }
+    
+    public void agregarPasoAlHistoria(String paso) {
+       historia.add(paso);
     }
 
     @Override
