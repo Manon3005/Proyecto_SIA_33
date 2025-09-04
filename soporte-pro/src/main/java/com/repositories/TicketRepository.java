@@ -20,7 +20,6 @@ public class TicketRepository {
     }
     
     public boolean agregarTicket(Ticket ticket){
-       ticket.setId(tickets.size());
        return tickets.add(ticket);
     }
     

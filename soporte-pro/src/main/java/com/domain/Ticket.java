@@ -13,19 +13,19 @@ public class Ticket {
     private int satisfaccion;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaFinalizacion;
-    private Cliente cliente;
-    private Empleado empleado;
+    private String clienteRut;
+    private String empleadoRut;
     private List<String> historia;
 
-    public Ticket(String titulo, String descripcion, Cliente cliente) {
+    public Ticket(String titulo, String descripcion, String clienteRut) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaCreacion = LocalDateTime.now(ZoneId.of("America/Santiago"));
-        this.cliente = cliente;
+        this.clienteRut = clienteRut;
         this.estado = EstadoTicket.PENDIENTE;
         this.satisfaccion = 0;
         this.fechaFinalizacion = null;
-        this.empleado = null;
+        this.empleadoRut = null;
         this.historia = new ArrayList<>();
     }
 
@@ -85,20 +85,20 @@ public class Ticket {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getClienteRut() {
+        return clienteRut;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteRut(String clienteRut) {
+        this.clienteRut = clienteRut;
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
+    public String getEmpleadoRut() {
+        return empleadoRut;
     }
 
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
+    public void setEmpleadoRut(String empleadoRut) {
+        this.empleadoRut = empleadoRut;
     }
 
     public List<String> getHistoria() {

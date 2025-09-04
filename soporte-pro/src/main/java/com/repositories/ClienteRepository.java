@@ -1,6 +1,12 @@
 package com.repositories;
 
 import com.domain.Cliente;
+import database.DBConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +15,7 @@ public class ClienteRepository {
 
     public ClienteRepository() {
         clientes = new HashMap<>();
+        cargarDatos();
     }
 
     public Map<String, Cliente> getClientes() {
@@ -73,5 +80,42 @@ public class ClienteRepository {
             }
         }
         return resultado;
+    }
+    
+    private void cargarDatos() {
+        String sql = "SELECT rut, nombre, apellido, correo FROM cliente";
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Cliente c = new Cliente(
+                    rs.getString("rut"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("correo")
+                );
+                clientes.put(c.getRut(), c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void guardarDatos() {
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "REPLACE INTO cliente (rut, nombre, apellido, correo) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            for (Cliente c : clientes.values()) {
+                stmt.setString(1, c.getRut());
+                stmt.setString(2, c.getNombre());
+                stmt.setString(3, c.getApellido());
+                stmt.setString(4, c.getCorreo());
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

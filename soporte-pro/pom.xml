@@ -12,4 +12,11 @@
         <exec.mainClass>com.main.SoportePro</exec.mainClass>
     </properties>
     <name>SoportePro</name>
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>       
+    </dependencies>
 </project>

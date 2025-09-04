@@ -21,35 +21,16 @@ public class SoportePro {
         SoportePro.clienteRepo = new ClienteRepository();
         SoportePro.empleadoRepo = new EmpleadoRepository();
         SoportePro.ticketRepo = new TicketRepository();
-        SoportePro.ticketService = new TicketService(ticketRepo);
+        SoportePro.ticketService = new TicketService(ticketRepo, clienteRepo, empleadoRepo);
         
     }
 
     public static void main(String[] args) throws IOException {
         new SoportePro();
-        SoportePro.initializarDatos();
         MenuTickets menu = new MenuTickets(clienteRepo, ticketService);
         menu.mostrarMenu();
-    }
-    
-    private static void initializarDatos() {
-        Cliente c1 = new Cliente("11111111-1", "Juan", "Perez", "juan.perez@mail.com");
-        Cliente c2 = new Cliente("22222222-2", "Maria", "Gonzalez", "maria.gonzalez@mail.com");
-        Cliente c3 = new Cliente("33333333-3", "Luis", "Ramirez", "luis.ramirez@mail.com");
-        clienteRepo.agregarCliente(c1);
-        clienteRepo.agregarCliente(c2);
-        clienteRepo.agregarCliente(c3);
-        
-        Empleado e1 = new Empleado("44444444-4", "Ana", "Lopez", "ana.lopez@empresa.com");
-        Empleado e2 = new Empleado("55555555-5", "Pedro", "Sanchez", "pedro.sanchez@empresa.com");
-        empleadoRepo.agregarEmpleado(e1);
-        empleadoRepo.agregarEmpleado(e2);
-        
-        Ticket t1 = ticketService.crearTicket(c1,"Problema Internet", "No tiene conexion en su domicilio.");
-        Ticket t2 = ticketService.crearTicket(c1, "Error Factura", "Monto incorrecto en la ultima boleta.");
-        Ticket t3 = ticketService.crearTicket(c2, "Cambio Plan", "Desea cambiar a un plan mas economico.");
-               
-        ticketService.asignarTicketEmpleado(e1, t1);
-        ticketService.asignarTicketEmpleado(e1, t2);
+        clienteRepo.guardarDatos();
+        empleadoRepo.guardarDatos();
+        ticketService.guardarDatos();
     }
 }

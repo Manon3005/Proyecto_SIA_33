@@ -79,7 +79,7 @@ public class MenuTickets {
             descripcion = lector.readLine();
         } while (descripcion.isEmpty());
 
-        if (ticketService.crearTicket(cliente, titulo, descripcion) != null) {
+        if (ticketService.crearTicket(rut, titulo, descripcion) != null) {
             System.out.println("Ticket creado!");
         } else {
             System.out.println("Error al crear el ticket.");
