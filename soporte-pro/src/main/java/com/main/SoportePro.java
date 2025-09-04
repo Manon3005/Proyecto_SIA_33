@@ -1,8 +1,5 @@
 package com.main;
 
-import com.domain.Cliente;
-import com.domain.Empleado;
-import com.domain.Ticket;
 import com.repositories.ClienteRepository;
 import com.repositories.EmpleadoRepository;
 import com.repositories.TicketRepository;

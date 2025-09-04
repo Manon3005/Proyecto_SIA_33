@@ -7,7 +7,7 @@ import com.domain.Ticket;
 import com.repositories.ClienteRepository;
 import com.repositories.EmpleadoRepository;
 import com.repositories.TicketRepository;
-import database.DBConnection;
+import com.database.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

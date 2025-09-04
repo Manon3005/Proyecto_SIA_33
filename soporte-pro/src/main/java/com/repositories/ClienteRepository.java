@@ -1,7 +1,7 @@
 package com.repositories;
 
 import com.domain.Cliente;
-import database.DBConnection;
+import com.database.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
