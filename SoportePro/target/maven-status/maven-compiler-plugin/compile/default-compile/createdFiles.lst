@@ -1,0 +1,16 @@
+com\controller\ClienteController.class
+com\view\App.class
+com\util\DBConnection.class
+com\model\domain\Ticket.class
+com\model\domain\EstadoTicket.class
+com\model\services\ClienteService.class
+com\controller\LoginController.class
+com\model\repositories\ClienteRepository.class
+com\model\services\TicketService.class
+module-info.class
+com\model\domain\Empleado.class
+com\controller\EmpleadoController.class
+com\model\services\EmpleadoService.class
+com\model\domain\Cliente.class
+com\model\repositories\TicketRepository.class
+com\model\repositories\EmpleadoRepository.class
