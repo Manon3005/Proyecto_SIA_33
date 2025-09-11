@@ -1,3 +1,4 @@
+com\model\domain\Usuario.class
 com\controller\ClienteController.class
 com\view\App.class
 com\util\DBConnection.class
