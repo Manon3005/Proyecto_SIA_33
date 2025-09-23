@@ -21,7 +21,7 @@ CREATE TABLE ticket (
     id INT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    estado ENUM('PENDIENTE', 'EN_PROCESO', 'TRATADO', 'EN_EVALUACION', 'CANCELADO') DEFAULT 'PENDIENTE',
+    estado ENUM('PENDIENTE', 'EN_PROCESO', 'TRATADO', 'EN_EVALUACION') DEFAULT 'PENDIENTE',
     satisfaccion INT CHECK (satisfaccion BETWEEN 1 AND 5 OR satisfaccion IS NULL),
     fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_finalizacion DATETIME NULL,
@@ -47,5 +47,5 @@ INSERT INTO empleado (rut, contrasena, nombre, apellido, correo) VALUES
 
 INSERT INTO ticket (id, titulo, descripcion, estado, satisfaccion, cliente_rut, empleado_rut) VALUES
 (0, 'Problema Internet', 'No tiene conexion en su domicilio.', 'EN_PROCESO', NULL, '11111111-1', '44444444-4'),
-(1, 'Error Factura', 'Monto incorrecto en la ultima boleta.', 'EN_PROCESO', NULL, '11111111-1', '55555555-5'),
+(1, 'Error Factura', 'Monto incorrecto en la ultima boleta.', 'EN_EVALUACION', NULL, '11111111-1', '55555555-5'),
 (2, 'Cambio Plan', 'Desea cambiar a un plan mas economico.', 'PENDIENTE', NULL, '22222222-2', NULL);

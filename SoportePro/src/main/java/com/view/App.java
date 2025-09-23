@@ -1,5 +1,6 @@
 package com.view;
 
+import com.controller.ClienteController;
 import com.controller.LoginController;
 import com.model.repositories.ClienteRepository;
 import com.model.repositories.EmpleadoRepository;
@@ -21,42 +22,37 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static ClienteRepository clienteRepository = new ClienteRepository();
+    private static EmpleadoRepository empleadoRepository = new EmpleadoRepository();
+    private static TicketRepository ticketRepository = new TicketRepository();
+    private static TicketService ticketService;
+    private static ClienteService clienteService;
+    private static EmpleadoService empleadoService;
 
     @Override
     public void start(Stage stage) throws IOException {
-        
-        ClienteRepository clienteRepository = new ClienteRepository();
-        EmpleadoRepository empleadoRepository = new EmpleadoRepository();
-        TicketRepository ticketRepository = new TicketRepository();
-        TicketService ticketService = new TicketService(ticketRepository, clienteRepository, empleadoRepository);
-        ClienteService clienteService = new ClienteService(clienteRepository);
-        EmpleadoService empleadoService = new EmpleadoService(empleadoRepository);
-        
-        //clienteRepository.guardarDatos();
-        //empleadoRepository.guardarDatos();
-        //ticketService.guardarDatos();
-        
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("LoginPage.fxml"));
-        scene = new Scene(fxmlLoader.load(), 900, 600);
-        LoginController loginController = fxmlLoader.getController();
+        ticketService = new TicketService(ticketRepository, clienteRepository, empleadoRepository);
+        clienteService = new ClienteService(clienteRepository);
+        empleadoService = new EmpleadoService(empleadoRepository);
+               
+        FXMLLoader fxmlLoaderLogin = new FXMLLoader(App.class.getResource("LoginPage.fxml"));
+        Parent root = fxmlLoaderLogin.load();
+        LoginController loginController = fxmlLoaderLogin.getController();
         loginController.setClienteService(clienteService);
         loginController.setEmpleadoService(empleadoService);
+        loginController.setTicketService(ticketService);
+          
+        scene = new Scene(root, 900, 600);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-
     public static void main(String[] args) {
         launch();
+        clienteRepository.guardarDatos();
+        empleadoRepository.guardarDatos();
+        ticketService.guardarDatos();
     }
 
 }

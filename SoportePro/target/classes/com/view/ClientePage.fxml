@@ -1,21 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="com.controller.ClienteController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controller.ClienteController">
    <children>
-      <Pane prefHeight="621.0" prefWidth="923.0">
+      <Pane prefHeight="629.0" prefWidth="932.0">
          <children>
-            <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ClientePage.fxml" wrappingWidth="372.5924758911133">
+            <Text fx:id="bienvenidoText" layoutX="34.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido usuario!" wrappingWidth="372.5924758911133">
                <font>
-                  <Font size="40.0" />
+                  <Font size="24.0" />
                </font>
             </Text>
+            <ListView fx:id="ticketList" layoutX="34.0" layoutY="144.0" prefHeight="427.0" prefWidth="390.0" />
+            <Text layoutX="34.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets creados" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e0e0e0" height="226.0" layoutX="446.0" layoutY="345.0" stroke="BLACK" strokeType="INSIDE" width="423.0" />
+            <Text layoutX="447.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear nuevo ticket" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="nuevoTituloField" layoutX="463.0" layoutY="377.0" prefHeight="25.0" prefWidth="190.0" />
+            <Label layoutX="464.0" layoutY="359.0" text="Título" />
+            <Label layoutX="464.0" layoutY="415.0" text="Descripción" />
+            <TextArea fx:id="nuevaDescripcionTextArea" layoutX="463.0" layoutY="434.0" prefHeight="120.0" prefWidth="389.0" />
+            <Button fx:id="crearTicketButton" layoutX="662.0" layoutY="377.0" mnemonicParsing="false" onAction="#crearTicket" prefHeight="25.0" prefWidth="190.0" text="Crear ticket" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e0e0e0" height="269.0" layoutX="445.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="423.0" />
+            <Text layoutX="447.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket selectionado" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="estadoText" layoutX="698.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="147.48120880126953">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="modificarTicketButton" layoutX="460.0" layoutY="270.0" mnemonicParsing="false" onAction="#modificarTicket" prefHeight="25.0" prefWidth="190.0" text="Modificar ticket" />
+            <Button fx:id="estimarSatisfaccionButton" layoutX="717.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" onAction="#evaluarTicket" text="Estimar satisfacción" />
+            <TextField fx:id="ticketTituloField" disable="true" layoutX="464.0" layoutY="69.0" prefHeight="25.0" prefWidth="190.0" />
+            <Label layoutX="465.0" layoutY="51.0" text="Título" />
+            <Label layoutX="463.0" layoutY="150.0" />
+            <TextArea fx:id="ticketDescripcionTextArea" disable="true" layoutX="463.0" layoutY="123.0" prefHeight="91.0" prefWidth="389.0" />
+            <Button fx:id="eliminarTicketButton" layoutX="662.0" layoutY="270.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" onAction="#eliminarTicket" text="Eliminar ticket" />
+            <Slider fx:id="ticketSatisfaccionSlider" disable="true" layoutX="460.0" layoutY="229.0" prefHeight="14.0" prefWidth="238.0" />
+            <Label layoutX="464.0" layoutY="104.0" text="Descripción" />
          </children>
       </Pane>
+      <Accordion />
    </children>
 </AnchorPane>

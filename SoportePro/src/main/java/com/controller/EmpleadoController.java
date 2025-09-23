@@ -4,6 +4,7 @@
  */
 package com.controller;
 
+import com.model.domain.Empleado;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -13,7 +14,9 @@ import javafx.fxml.Initializable;
  *
  * @author manon
  */
-public class EmpleadoController implements Initializable {
+public class EmpleadoController implements Initializable  {
+
+    private Empleado empleado;
 
     /**
      * Initializes the controller class.
@@ -22,5 +25,8 @@ public class EmpleadoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }    
 }

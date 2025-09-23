@@ -4,15 +4,16 @@
  */
 package com.controller;
 
+import com.model.domain.Cliente;
+import com.model.domain.Empleado;
 import com.model.services.ClienteService;
 import com.model.services.EmpleadoService;
+import com.model.services.TicketService;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -37,6 +38,7 @@ public class LoginController {
     
     private ClienteService clienteService;
     private EmpleadoService empleadoService;
+    private TicketService ticketService;
         
     public void initialize() {
         ObservableList<String> options = FXCollections.observableArrayList(
@@ -55,33 +57,62 @@ public class LoginController {
     public void setEmpleadoService(EmpleadoService empleadoService) {
         this.empleadoService = empleadoService;
     }
-    
+
+    public void setTicketService(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+       
     public void login() {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setHeaderText("Wrong rut o password");
         if (userTypeChoiceBox.getValue().equals("Cliente")) {
-            if(clienteService.conectarCliente(rutField.getText(), passwordField.getText()) == null) {
+            Cliente cliente = clienteService.conectarCliente(rutField.getText(), passwordField.getText());
+            if(cliente == null) {
                 alert.show();
             } else {
-                redirectTo("ClientePage.fxml");
+                redirectToClientePage(cliente);
             }
         } else {
-            if(empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText()) == null) {
+            Empleado empleado = empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText());
+            if(empleado == null) {
                 alert.show();
             } else {
-                redirectTo("EmpleadoPage.fxml");
+                redirectToEmpleadoPage(empleado);
             }
         }
     }
     
-    private void redirectTo(String fxmlFile) {
-    try {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/view/" + fxmlFile));
+    private void redirectToClientePage(Cliente cliente) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/view/ClientePage.fxml"));
+            Parent root = loader.load();
 
-        Stage stage = (Stage) rutField.getScene().getWindow();
+            ClienteController clienteController = loader.getController();
+            clienteController.setTicketService(ticketService);
+            clienteController.setCliente(cliente);
+            clienteController.actualizarTicketList();
 
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = (Stage) rutField.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void redirectToEmpleadoPage(Empleado empleado) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/view/EmpleadoPage.fxml"));
+            Parent root = loader.load();
+
+            EmpleadoController empleadoController = loader.getController();
+            empleadoController.setEmpleado(empleado);
+
+            Stage stage = (Stage) rutField.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

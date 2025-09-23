@@ -14,6 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TicketService {
     private final TicketRepository ticketRepo;
@@ -51,6 +54,13 @@ public class TicketService {
         return false;
     }
     
+    public void eliminarTicket(Ticket ticket) {
+        String clienteRut = ticket.getClienteRut();
+        Cliente cliente = clienteRepo.buscarPorRut(clienteRut);
+        cliente.getTickets().remove(ticket);
+        ticketRepo.getTickets().remove(ticket);
+    }
+    
     private void cargarDatos() {
         String sql = "SELECT id, titulo, descripcion, estado, satisfaccion, fecha_creacion, fecha_finalizacion, cliente_rut, empleado_rut FROM ticket";
 
@@ -62,7 +72,12 @@ public class TicketService {
                 String clienteRut = rs.getString("cliente_rut");
 
                 Ticket ticket = crearTicket(clienteRut, rs.getString("titulo"), rs.getString("descripcion"));
-
+                
+                String empleadoRut = rs.getString("empleado_rut");
+                if (empleadoRut != null) {
+                    asignarTicketEmpleado(empleadoRut, ticket);
+                }
+                
                 ticket.setId(rs.getInt("id"));
                 ticket.setEstado(EstadoTicket.valueOf(rs.getString("estado")));
                 ticket.setSatisfaccion(rs.getInt("satisfaccion"));
@@ -72,11 +87,6 @@ public class TicketService {
                 if (fin != null) {
                     ticket.setFechaFinalizacion(fin.toLocalDateTime());
                 }
-
-                String empleadoRut = rs.getString("empleado_rut");
-                if (empleadoRut != null) {
-                    asignarTicketEmpleado(empleadoRut, ticket);
-                }
             }
 
         } catch (SQLException e) {
@@ -85,23 +95,47 @@ public class TicketService {
     }
 
     public void guardarDatos() {
-        String sql = "REPLACE INTO ticket (id, titulo, descripcion, estado, satisfaccion, fecha_creacion, fecha_finalizacion, cliente_rut, empleado_rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlReemplazo = "REPLACE INTO ticket (id, titulo, descripcion, estado, satisfaccion, fecha_creacion, fecha_finalizacion, cliente_rut, empleado_rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlSeleccionIds = "SELECT id FROM ticket";
+        String sqlEliminar = "DELETE FROM ticket WHERE id = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection()) {
 
-            for (Ticket t : ticketRepo.getTickets()) {
-                stmt.setInt(1, t.getId());
-                stmt.setString(2, t.getTitulo());
-                stmt.setString(3, t.getDescripcion());
-                stmt.setString(4, t.getEstado().toString());
-                stmt.setObject(5, t.getSatisfaccion() == 0 ? null : t.getSatisfaccion());
-                stmt.setTimestamp(6, Timestamp.valueOf(t.getFechaCreacion()));
-                stmt.setTimestamp(7, t.getFechaFinalizacion() != null ? Timestamp.valueOf(t.getFechaFinalizacion()) : null);
-                stmt.setString(8, t.getClienteRut());
-                stmt.setString(9, t.getEmpleadoRut());
+            Set<Integer> idsEnBD = new HashSet<>();
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sqlSeleccionIds)) {
+                while (rs.next()) {
+                    idsEnBD.add(rs.getInt("id"));
+                }
+            }
 
-                stmt.executeUpdate();
+            Set<Integer> idsEnMemoria = ticketRepo.getTickets().stream()
+                    .map(Ticket::getId)
+                    .collect(Collectors.toSet());
+
+            try (PreparedStatement stmtEliminar = conn.prepareStatement(sqlEliminar)) {
+                for (Integer id : idsEnBD) {
+                    if (!idsEnMemoria.contains(id)) {
+                        stmtEliminar.setInt(1, id);
+                        stmtEliminar.executeUpdate();
+                    }
+                }
+            }
+
+            try (PreparedStatement stmtReemplazo = conn.prepareStatement(sqlReemplazo)) {
+                for (Ticket t : ticketRepo.getTickets()) {
+                    stmtReemplazo.setInt(1, t.getId());
+                    stmtReemplazo.setString(2, t.getTitulo());
+                    stmtReemplazo.setString(3, t.getDescripcion());
+                    stmtReemplazo.setString(4, t.getEstado().toString());
+                    stmtReemplazo.setObject(5, t.getSatisfaccion() == 0 ? null : t.getSatisfaccion());
+                    stmtReemplazo.setTimestamp(6, Timestamp.valueOf(t.getFechaCreacion()));
+                    stmtReemplazo.setTimestamp(7, t.getFechaFinalizacion() != null ? Timestamp.valueOf(t.getFechaFinalizacion()) : null);
+                    stmtReemplazo.setString(8, t.getClienteRut());
+                    stmtReemplazo.setString(9, t.getEmpleadoRut());
+
+                    stmtReemplazo.executeUpdate();
+                }
             }
 
         } catch (SQLException e) {

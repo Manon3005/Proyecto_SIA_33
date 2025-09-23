@@ -4,6 +4,5 @@ public enum EstadoTicket {
     PENDIENTE, 
     EN_PROCESO,
     EN_EVALUACION,
-    TRATADO, 
-    CANCELADO
+    TRATADO
 }

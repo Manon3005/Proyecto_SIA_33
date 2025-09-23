@@ -4,9 +4,23 @@
  */
 package com.controller;
 
+import com.model.domain.Cliente;
+import com.model.domain.EstadoTicket;
+import com.model.domain.Ticket;
+import com.model.services.TicketService;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -14,13 +28,168 @@ import javafx.fxml.Initializable;
  * @author manon
  */
 public class ClienteController implements Initializable {
+    
+    @FXML
+    Text bienvenidoText;
+    
+    @FXML
+    TextField nuevoTituloField;
+    
+    @FXML
+    TextArea nuevaDescripcionTextArea;
+    
+    @FXML
+    ListView ticketList;
+    
+    @FXML
+    TextField ticketTituloField;
+    
+    @FXML
+    TextArea ticketDescripcionTextArea;
+    
+    @FXML
+    Text estadoText;
+    
+    @FXML
+    Button modificarTicketButton;
+    
+    @FXML
+    Button eliminarTicketButton;
+    
+    @FXML
+    Button estimarSatisfaccionButton;
+    
+    @FXML
+    Slider ticketSatisfaccionSlider;
+    
+    private Cliente cliente;
+    private TicketService ticketService;
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        ticketList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        ticketList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                mostrarDetalles((Ticket) newSelection);
+            }
+        });     
+        
+        ticketSatisfaccionSlider.setMin(1);
+        ticketSatisfaccionSlider.setMax(5);
+        ticketSatisfaccionSlider.setValue(5);
+
+        ticketSatisfaccionSlider.setShowTickMarks(true);
+        ticketSatisfaccionSlider.setShowTickLabels(true);
+        ticketSatisfaccionSlider.setMajorTickUnit(1);
+        ticketSatisfaccionSlider.setMinorTickCount(0); 
+        ticketSatisfaccionSlider.setSnapToTicks(true); 
+        
+        eliminarDetalles();
     }    
     
+    public void crearTicket() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText("Debes completar título y descripción!");
+        if (nuevoTituloField.getText().isBlank() || nuevaDescripcionTextArea.getText().isBlank()) {
+            alert.show();
+        } else {
+            ticketService.crearTicket(cliente.getRut(), nuevoTituloField.getText(),  nuevaDescripcionTextArea.getText());
+            actualizarTicketList();
+            nuevoTituloField.clear();
+            nuevaDescripcionTextArea.clear();
+        }
+    }
+       
+    public void actualizarTicketList() {
+        ticketList.setItems(FXCollections.observableArrayList());
+        for (Ticket ticket: cliente.getTickets()) {
+            ticketList.getItems().add(ticket);
+        }
+    }
+    
+    public void mostrarDetalles(Ticket ticket) {
+        ticketTituloField.setText(ticket.getTitulo());
+        ticketDescripcionTextArea.setText(ticket.getDescripcion());
+        estadoText.setText(ticket.getEstado().toString());
+        
+        if(ticket.getSatisfaccion() != 0) {
+            ticketSatisfaccionSlider.setValue(ticket.getSatisfaccion());
+        } else {
+            ticketSatisfaccionSlider.setValue(5);
+        }
+        
+        if (ticket.getEstado() == EstadoTicket.EN_EVALUACION) {
+            estimarSatisfaccionButton.setDisable(false);
+            ticketSatisfaccionSlider.setDisable(false);
+        } else {
+            estimarSatisfaccionButton.setDisable(true);
+            ticketSatisfaccionSlider.setDisable(true);
+        }
+        
+        if (ticket.getEstado() == EstadoTicket.PENDIENTE) {
+            modificarTicketButton.setDisable(false);
+            eliminarTicketButton.setDisable(false);
+        } else {
+            modificarTicketButton.setDisable(true);
+            eliminarTicketButton.setDisable(true);
+        }
+    }
+    
+    public void eliminarDetalles() {
+        ticketTituloField.clear();
+        ticketDescripcionTextArea.clear();
+        estadoText.setText("");
+        modificarTicketButton.setDisable(true);
+        eliminarTicketButton.setDisable(true);
+        estimarSatisfaccionButton.setDisable(true);
+        ticketSatisfaccionSlider.setDisable(true);
+    }
+    
+    public void modificarTicket() {
+        if (modificarTicketButton.getText().equals("Modificar ticket")) {
+            ticketTituloField.setDisable(false);
+            ticketDescripcionTextArea.setDisable(false);
+            modificarTicketButton.setText("Guardar");
+        } else {
+            ticketTituloField.setDisable(true);
+            ticketDescripcionTextArea.setDisable(true);
+            modificarTicketButton.setText("Modificar ticket");
+            if (ticketTituloField.getText().isBlank() || ticketDescripcionTextArea.getText().isBlank()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Debes completar título y descripción!");
+                alert.show();
+            } else {
+                Ticket ticketSelectionado = (Ticket) ticketList.getSelectionModel().getSelectedItem();
+                ticketSelectionado.setTitulo(ticketTituloField.getText());
+                ticketSelectionado.setDescripcion(ticketDescripcionTextArea.getText());
+            }
+        }
+    }
+    
+    public void evaluarTicket() {
+        Ticket ticketSelectionado = (Ticket) ticketList.getSelectionModel().getSelectedItem();
+        ticketSelectionado.setSatisfaccion((int) ticketSatisfaccionSlider.getValue());
+        ticketSelectionado.setEstado(EstadoTicket.TRATADO);
+        mostrarDetalles(ticketSelectionado);
+    }
+    
+    public void eliminarTicket() {
+        Ticket ticketSelectionado = (Ticket) ticketList.getSelectionModel().getSelectedItem();
+        ticketService.eliminarTicket(ticketSelectionado);
+        actualizarTicketList();
+        eliminarDetalles();
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+        bienvenidoText.setText("Bienvenido " + cliente.getNombre() + "!");
+    }
+
+    public void setTicketService(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }   
 }
