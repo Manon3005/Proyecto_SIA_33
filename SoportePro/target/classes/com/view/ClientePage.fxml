@@ -22,8 +22,8 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <ListView fx:id="ticketList" layoutX="34.0" layoutY="144.0" prefHeight="427.0" prefWidth="390.0" />
-            <Text layoutX="34.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets creados" wrappingWidth="372.5924758911133">
+            <ListView fx:id="ticketList" layoutX="34.0" layoutY="154.0" prefHeight="389.0" prefWidth="390.0" />
+            <Text layoutX="34.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets creados" wrappingWidth="372.5924758911133">
                <font>
                   <Font size="18.0" />
                </font>
@@ -40,7 +40,7 @@
             <TextArea fx:id="nuevaDescripcionTextArea" layoutX="463.0" layoutY="434.0" prefHeight="120.0" prefWidth="389.0" />
             <Button fx:id="crearTicketButton" layoutX="662.0" layoutY="377.0" mnemonicParsing="false" onAction="#crearTicket" prefHeight="25.0" prefWidth="190.0" text="Crear ticket" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e0e0e0" height="269.0" layoutX="445.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="423.0" />
-            <Text layoutX="447.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket selectionado" wrappingWidth="372.5924758911133">
+            <Text layoutX="446.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket selectionado" wrappingWidth="372.5924758911133">
                <font>
                   <Font size="18.0" />
                </font>
@@ -51,14 +51,17 @@
                </font>
             </Text>
             <Button fx:id="modificarTicketButton" layoutX="460.0" layoutY="270.0" mnemonicParsing="false" onAction="#modificarTicket" prefHeight="25.0" prefWidth="190.0" text="Modificar ticket" />
-            <Button fx:id="estimarSatisfaccionButton" layoutX="717.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" onAction="#evaluarTicket" text="Estimar satisfacción" />
+            <Button fx:id="estimarSatisfaccionButton" layoutX="717.0" layoutY="223.0" mnemonicParsing="false" onAction="#evaluarTicket" prefHeight="25.0" prefWidth="134.0" text="Estimar satisfacción" />
             <TextField fx:id="ticketTituloField" disable="true" layoutX="464.0" layoutY="69.0" prefHeight="25.0" prefWidth="190.0" />
             <Label layoutX="465.0" layoutY="51.0" text="Título" />
             <Label layoutX="463.0" layoutY="150.0" />
             <TextArea fx:id="ticketDescripcionTextArea" disable="true" layoutX="463.0" layoutY="123.0" prefHeight="91.0" prefWidth="389.0" />
-            <Button fx:id="eliminarTicketButton" layoutX="662.0" layoutY="270.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" onAction="#eliminarTicket" text="Eliminar ticket" />
+            <Button fx:id="eliminarTicketButton" layoutX="662.0" layoutY="270.0" mnemonicParsing="false" onAction="#eliminarTicket" prefHeight="25.0" prefWidth="190.0" text="Eliminar ticket" />
             <Slider fx:id="ticketSatisfaccionSlider" disable="true" layoutX="460.0" layoutY="229.0" prefHeight="14.0" prefWidth="238.0" />
             <Label layoutX="464.0" layoutY="104.0" text="Descripción" />
+            <Button fx:id="exportarTicketButton" layoutX="34.0" layoutY="547.0" mnemonicParsing="false" onAction="#exportarTicket" prefHeight="25.0" prefWidth="390.0" text="Exportar tickets (.csv)" />
+            <TextField fx:id="ticketSearchBar" layoutX="34.0" layoutY="126.0" prefHeight="25.0" prefWidth="335.0" style="-fx-background-radius: 15;" />
+            <Button fx:id="buscarTicketButton" layoutX="372.0" layoutY="126.0" mnemonicParsing="false" onAction="#buscarTicket" text="Buscar" />
          </children>
       </Pane>
       <Accordion />

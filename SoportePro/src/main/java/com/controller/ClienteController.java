@@ -8,8 +8,13 @@ import com.model.domain.Cliente;
 import com.model.domain.EstadoTicket;
 import com.model.domain.Ticket;
 import com.model.services.TicketService;
+import com.util.CsvUtils;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,6 +67,15 @@ public class ClienteController implements Initializable {
     @FXML
     Slider ticketSatisfaccionSlider;
     
+    @FXML
+    Button exportarTicketButton;
+    
+    @FXML
+    TextField ticketSearchBar;
+    
+    @FXML
+    Button buscarTicketButton;
+    
     private Cliente cliente;
     private TicketService ticketService;
     
@@ -98,16 +112,26 @@ public class ClienteController implements Initializable {
             alert.show();
         } else {
             ticketService.crearTicket(cliente.getRut(), nuevoTituloField.getText(),  nuevaDescripcionTextArea.getText());
-            actualizarTicketList();
+            actualizarTicketList("");
             nuevoTituloField.clear();
             nuevaDescripcionTextArea.clear();
         }
     }
        
-    public void actualizarTicketList() {
+    public void actualizarTicketList(String research) {
         ticketList.setItems(FXCollections.observableArrayList());
-        for (Ticket ticket: cliente.getTickets()) {
+        List<Ticket> tickets = filtrarPorTitulo(cliente.getTickets(), research);
+        for (Ticket ticket: tickets) {
             ticketList.getItems().add(ticket);
+        }
+        if (cliente.getTickets().isEmpty()) {
+            exportarTicketButton.setDisable(true);
+            ticketSearchBar.setDisable(true);
+            buscarTicketButton.setDisable(true);
+        } else {
+            exportarTicketButton.setDisable(false);
+            ticketSearchBar.setDisable(false);
+            buscarTicketButton.setDisable(false);
         }
     }
     
@@ -180,8 +204,29 @@ public class ClienteController implements Initializable {
     public void eliminarTicket() {
         Ticket ticketSelectionado = (Ticket) ticketList.getSelectionModel().getSelectedItem();
         ticketService.eliminarTicket(ticketSelectionado);
-        actualizarTicketList();
+        actualizarTicketList("");
         eliminarDetalles();
+    }
+    
+    public void exportarTicket() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String fecha = LocalDateTime.now().format(formatter);
+        String filePath = "informe_" + cliente.getRut() + "_" + fecha + ".csv";
+
+        Boolean res = CsvUtils.generarInforme(cliente.getTickets(), filePath);
+        if (res) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Tickets exportados en archivo " + filePath + "!");
+            alert.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error en la exportación!");
+            alert.show();
+        }
+    }
+    
+    public void buscarTicket() {
+        actualizarTicketList(ticketSearchBar.getText());
     }
 
     public void setCliente(Cliente cliente) {
@@ -191,5 +236,16 @@ public class ClienteController implements Initializable {
 
     public void setTicketService(TicketService ticketService) {
         this.ticketService = ticketService;
-    }   
+    }
+    
+    private static List<Ticket> filtrarPorTitulo(List<Ticket> lista, String busqueda) {
+        if (busqueda == null || busqueda.trim().isEmpty()) {
+            return lista;
+        }
+        String busquedaLower = busqueda.toLowerCase();
+
+        return lista.stream()
+                .filter(t -> t.getTitulo().toLowerCase().contains(busquedaLower))
+                .collect(Collectors.toList());
+    }
 }

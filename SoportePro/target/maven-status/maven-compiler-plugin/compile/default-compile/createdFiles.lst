@@ -4,6 +4,7 @@ com\view\App.class
 com\util\DBConnection.class
 com\model\domain\Ticket.class
 com\model\domain\EstadoTicket.class
+com\util\CsvUtils.class
 com\model\services\ClienteService.class
 com\controller\LoginController.class
 com\model\repositories\ClienteRepository.class

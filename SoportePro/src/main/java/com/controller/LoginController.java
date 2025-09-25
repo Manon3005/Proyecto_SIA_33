@@ -90,7 +90,7 @@ public class LoginController {
             ClienteController clienteController = loader.getController();
             clienteController.setTicketService(ticketService);
             clienteController.setCliente(cliente);
-            clienteController.actualizarTicketList();
+            clienteController.actualizarTicketList("");
 
             Stage stage = (Stage) rutField.getScene().getWindow();
 
