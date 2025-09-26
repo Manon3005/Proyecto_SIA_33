@@ -5,10 +5,12 @@
 package com.controller;
 
 import com.model.domain.Cliente;
+import com.model.domain.Empleado;
 import com.model.domain.EstadoTicket;
 import com.model.domain.Ticket;
 import com.model.services.TicketService;
 import com.util.CsvUtils;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +19,10 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -26,6 +31,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -211,12 +217,12 @@ public class ClienteController implements Initializable {
     public void exportarTicket() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
         String fecha = LocalDateTime.now().format(formatter);
-        String filePath = "informe_" + cliente.getRut() + "_" + fecha + ".csv";
+        String filePath = "informe_" + cliente.getApellido() + "_" + fecha + ".csv";
 
-        Boolean res = CsvUtils.generarInforme(cliente.getTickets(), filePath);
+        Boolean res = CsvUtils.generarReporteCSV(cliente.getTickets(), filePath);
         if (res) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Tickets exportados en archivo " + filePath + "!");
+            alert.setHeaderText("Tickets exportados en archivo SoportePro/" + filePath);
             alert.show();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
