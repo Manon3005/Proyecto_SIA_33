@@ -19,4 +19,5 @@ com\util\CsvUtils.class
 com\exceptions\UserConnectionException.class
 com\model\repositories\ClienteRepository.class
 com\model\domain\Empleado.class
+com\exceptions\NoConnectionToDataBaseException.class
 com\model\domain\Cliente.class

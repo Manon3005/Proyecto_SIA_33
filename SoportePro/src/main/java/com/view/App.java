@@ -2,6 +2,7 @@ package com.view;
 
 import com.controller.ClienteController;
 import com.controller.LoginController;
+import com.exceptions.NoConnectionToDataBaseException;
 import com.model.repositories.ClienteRepository;
 import com.model.repositories.EmpleadoRepository;
 import com.model.repositories.TicketRepository;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.control.Alert;
 
 /**
  * JavaFX App
@@ -34,9 +36,10 @@ public class App extends Application {
         clienteRepository = new ClienteRepository();
         empleadoRepository = new EmpleadoRepository();
         ticketRepository = new TicketRepository(clienteRepository, empleadoRepository);
+        
         ticketService = new TicketService(ticketRepository, clienteRepository, empleadoRepository);
         clienteService = new ClienteService(clienteRepository);
-        empleadoService = new EmpleadoService(empleadoRepository);
+        empleadoService = new EmpleadoService(empleadoRepository);       
                
         FXMLLoader fxmlLoaderLogin = new FXMLLoader(App.class.getResource("LoginPage.fxml"));
         Parent root = fxmlLoaderLogin.load();
@@ -49,6 +52,8 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+        
+        cargarDatos();
     }
 
     public static void main(String[] args) {
@@ -56,5 +61,17 @@ public class App extends Application {
         clienteRepository.guardarDatos();
         empleadoRepository.guardarDatos();
         ticketRepository.guardarDatos();
+    }
+    
+    private static void cargarDatos() {
+        try {
+            clienteRepository.cargarDatos();
+            empleadoRepository.cargarDatos();
+            ticketRepository.cargarDatos();
+        } catch (NoConnectionToDataBaseException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(e.getMessage());
+            alert.show();
+        }
     }
 }

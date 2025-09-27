@@ -1,5 +1,6 @@
 package com.model.repositories;
 
+import com.exceptions.NoConnectionToDataBaseException;
 import com.model.domain.Cliente;
 import com.util.DBConnection;
 import java.sql.Connection;
@@ -15,7 +16,6 @@ public class ClienteRepository extends Repository {
 
     public ClienteRepository() {
         clientes = new HashMap<>();
-        cargarDatos();
     }
 
     public Map<String, Cliente> getClientes() {
@@ -83,7 +83,7 @@ public class ClienteRepository extends Repository {
     }
     
     @Override
-    protected void cargarDatos() {
+    public void cargarDatos() throws NoConnectionToDataBaseException {
         String sql = "SELECT * FROM cliente";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -100,7 +100,7 @@ public class ClienteRepository extends Repository {
                 clientes.put(c.getRut(), c);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new NoConnectionToDataBaseException();
         }
     }
     

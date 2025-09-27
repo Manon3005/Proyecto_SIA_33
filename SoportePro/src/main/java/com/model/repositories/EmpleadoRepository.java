@@ -15,7 +15,6 @@ public class EmpleadoRepository extends Repository {
 
     public EmpleadoRepository() {
         empleados = new ArrayList<>();
-        cargarDatos();
     }   
 
     public List<Empleado> getEmpleados() {
@@ -57,7 +56,7 @@ public class EmpleadoRepository extends Repository {
     }
     
     @Override
-    protected void cargarDatos() {
+    public void cargarDatos() {
         String sql = "SELECT rut, contrasena, nombre, apellido, correo FROM empleado";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();

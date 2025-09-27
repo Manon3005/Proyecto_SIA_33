@@ -26,7 +26,6 @@ public class TicketRepository extends Repository {
         this.tickets = new ArrayList();
         this.clienteRepo = clienteRepository;
         this.empleadoRepo = empleadoRepository;
-        cargarDatos();
     }
 
     public List<Ticket> getTickets() {
@@ -51,7 +50,7 @@ public class TicketRepository extends Repository {
     }
     
     @Override
-    protected void cargarDatos() {
+    public void cargarDatos() {
         String sql = "SELECT id, titulo, descripcion, estado, satisfaccion, fecha_creacion, fecha_finalizacion, cliente_rut, empleado_rut FROM ticket";
 
         try (Connection conn = DBConnection.getConnection();

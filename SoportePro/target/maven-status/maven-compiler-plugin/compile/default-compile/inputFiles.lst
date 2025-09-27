@@ -12,6 +12,7 @@ C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\m
 C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\model\domain\Usuario.java
 C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\model\repositories\EmpleadoRepository.java
 C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\model\repositories\ClienteRepository.java
+C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\exceptions\NoConnectionToDataBaseException.java
 C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\model\domain\EstadoTicket.java
 C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\model\domain\Empleado.java
 C:\Stockage\5IF\S1 - PUCV\Programacion Avanzada\Proyecto_SIA_33\SoportePro\src\main\java\com\model\services\TicketService.java

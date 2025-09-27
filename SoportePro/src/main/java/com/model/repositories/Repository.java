@@ -1,7 +1,9 @@
 package com.model.repositories;
 
+import com.exceptions.NoConnectionToDataBaseException;
+
 public abstract class Repository {
     
-    protected abstract void cargarDatos();
+    public abstract void cargarDatos() throws NoConnectionToDataBaseException;
     public abstract void guardarDatos();
 }
