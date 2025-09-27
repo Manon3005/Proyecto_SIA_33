@@ -35,8 +35,8 @@
                </font>
             </Text>
             <TextField fx:id="nuevoTituloField" layoutX="463.0" layoutY="377.0" prefHeight="25.0" prefWidth="190.0" />
-            <Label layoutX="464.0" layoutY="359.0" text="Título" />
-            <Label layoutX="464.0" layoutY="415.0" text="Descripción" />
+            <Label layoutX="464.0" layoutY="359.0" text="Título*" />
+            <Label layoutX="464.0" layoutY="415.0" text="Descripción*" />
             <TextArea fx:id="nuevaDescripcionTextArea" layoutX="463.0" layoutY="434.0" prefHeight="120.0" prefWidth="389.0" />
             <Button fx:id="crearTicketButton" layoutX="662.0" layoutY="377.0" mnemonicParsing="false" onAction="#crearTicket" prefHeight="25.0" prefWidth="190.0" text="Crear ticket" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e0e0e0" height="269.0" layoutX="445.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="423.0" />
@@ -64,6 +64,7 @@
             <Button fx:id="buscarTicketButton" layoutX="372.0" layoutY="126.0" mnemonicParsing="false" onAction="#buscarTicket" text="Buscar" />
          </children>
       </Pane>
+      <Accordion />
       <Accordion />
    </children>
 </AnchorPane>

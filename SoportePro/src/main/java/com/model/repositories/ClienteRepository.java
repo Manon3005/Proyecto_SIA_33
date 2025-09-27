@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClienteRepository {
+public class ClienteRepository extends Repository {
     private Map<String, Cliente> clientes = new HashMap<>();
 
     public ClienteRepository() {
@@ -82,7 +82,8 @@ public class ClienteRepository {
         return resultado;
     }
     
-    private void cargarDatos() {
+    @Override
+    protected void cargarDatos() {
         String sql = "SELECT * FROM cliente";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -103,6 +104,7 @@ public class ClienteRepository {
         }
     }
     
+    @Override
     public void guardarDatos() {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "REPLACE INTO cliente (rut, contrasena, nombre, apellido, correo) VALUES (?, ?, ?, ?, ?)";

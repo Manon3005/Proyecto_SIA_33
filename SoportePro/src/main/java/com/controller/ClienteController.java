@@ -4,6 +4,7 @@
  */
 package com.controller;
 
+import com.exceptions.InformationMissingException;
 import com.model.domain.Cliente;
 import com.model.domain.Empleado;
 import com.model.domain.EstadoTicket;
@@ -19,10 +20,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -31,7 +29,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -112,20 +109,21 @@ public class ClienteController implements Initializable {
     }    
     
     public void crearTicket() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setHeaderText("Debes completar título y descripción!");
-        if (nuevoTituloField.getText().isBlank() || nuevaDescripcionTextArea.getText().isBlank()) {
-            alert.show();
-        } else {
+        try {
             ticketService.crearTicket(cliente.getRut(), nuevoTituloField.getText(),  nuevaDescripcionTextArea.getText());
             actualizarTicketList("");
             nuevoTituloField.clear();
             nuevaDescripcionTextArea.clear();
+        } catch (InformationMissingException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Debes completar título y descripción!");
+            alert.show();
         }
     }
        
     public void actualizarTicketList(String research) {
         ticketList.setItems(FXCollections.observableArrayList());
+        System.out.println(cliente);
         List<Ticket> tickets = filtrarPorTitulo(cliente.getTickets(), research);
         for (Ticket ticket: tickets) {
             ticketList.getItems().add(ticket);

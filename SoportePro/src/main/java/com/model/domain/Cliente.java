@@ -8,6 +8,9 @@ public class Cliente extends Usuario {
 
     @Override
     public String toString() {
+        for (Ticket ticket: tickets) {
+            System.out.println("Ticket: " + ticket.getTitulo());
+        }
         return "Cliente{" + "rut=" + rut + ", nombre=" + nombre + ", apellido=" + apellido + ", correo=" + correo + '}';
     }
 }

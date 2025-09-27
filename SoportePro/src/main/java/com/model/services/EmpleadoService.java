@@ -4,6 +4,7 @@
  */
 package com.model.services;
 
+import com.exceptions.UserConnectionException;
 import com.model.domain.Empleado;
 import com.model.repositories.EmpleadoRepository;
 import java.util.Collection;
@@ -19,13 +20,13 @@ public class EmpleadoService {
         this.empleadoRepo = empleadoRepo;
     }
     
-    public Empleado conectarEmpleado(String rut, String contrasena) {
+    public Empleado conectarEmpleado(String rut, String contrasena) throws UserConnectionException {
         Collection<Empleado> empleados = empleadoRepo.getEmpleados();
         for (Empleado e: empleados) {
             if (e.getRut().equals(rut) && e.getContrasena().equals(contrasena)) {
                 return e;
             }
         }
-        return null;
+        throw new UserConnectionException();
     }  
 }

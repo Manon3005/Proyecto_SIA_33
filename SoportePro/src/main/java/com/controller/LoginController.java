@@ -4,6 +4,7 @@
  */
 package com.controller;
 
+import com.exceptions.UserConnectionException;
 import com.model.domain.Cliente;
 import com.model.domain.Empleado;
 import com.model.services.ClienteService;
@@ -63,21 +64,23 @@ public class LoginController {
     }
        
     public void login() {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setHeaderText("Wrong rut o password");
         if (userTypeChoiceBox.getValue().equals("Cliente")) {
-            Cliente cliente = clienteService.conectarCliente(rutField.getText(), passwordField.getText());
-            if(cliente == null) {
-                alert.show();
-            } else {
+            try {
+                Cliente cliente = clienteService.conectarCliente(rutField.getText(), passwordField.getText());
                 redirectToClientePage(cliente);
+            } catch (UserConnectionException e) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setHeaderText(e.getMessage());
+                alert.show();
             }
         } else {
-            Empleado empleado = empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText());
-            if(empleado == null) {
-                alert.show();
-            } else {
+            try {
+                Empleado empleado = empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText());
                 redirectToEmpleadoPage(empleado);
+            } catch (UserConnectionException e) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setHeaderText(e.getMessage());
+                alert.show();
             }
         }
     }

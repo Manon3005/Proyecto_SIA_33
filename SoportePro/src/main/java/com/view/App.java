@@ -22,15 +22,18 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    private static ClienteRepository clienteRepository = new ClienteRepository();
-    private static EmpleadoRepository empleadoRepository = new EmpleadoRepository();
-    private static TicketRepository ticketRepository = new TicketRepository();
+    private static ClienteRepository clienteRepository;
+    private static EmpleadoRepository empleadoRepository;
+    private static TicketRepository ticketRepository;
     private static TicketService ticketService;
     private static ClienteService clienteService;
     private static EmpleadoService empleadoService;
 
     @Override
     public void start(Stage stage) throws IOException {
+        clienteRepository = new ClienteRepository();
+        empleadoRepository = new EmpleadoRepository();
+        ticketRepository = new TicketRepository(clienteRepository, empleadoRepository);
         ticketService = new TicketService(ticketRepository, clienteRepository, empleadoRepository);
         clienteService = new ClienteService(clienteRepository);
         empleadoService = new EmpleadoService(empleadoRepository);
@@ -52,7 +55,6 @@ public class App extends Application {
         launch();
         clienteRepository.guardarDatos();
         empleadoRepository.guardarDatos();
-        ticketService.guardarDatos();
+        ticketRepository.guardarDatos();
     }
-
 }

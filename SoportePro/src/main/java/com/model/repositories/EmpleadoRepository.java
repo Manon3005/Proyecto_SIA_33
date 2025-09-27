@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmpleadoRepository {
+public class EmpleadoRepository extends Repository {
     private List<Empleado> empleados;
 
     public EmpleadoRepository() {
@@ -56,7 +56,8 @@ public class EmpleadoRepository {
         return resultado;
     }
     
-    private void cargarDatos() {
+    @Override
+    protected void cargarDatos() {
         String sql = "SELECT rut, contrasena, nombre, apellido, correo FROM empleado";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -77,6 +78,7 @@ public class EmpleadoRepository {
         }
     }
     
+    @Override
     public void guardarDatos() {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "REPLACE INTO empleado (rut, contrasena, nombre, apellido, correo) VALUES (?, ?, ?, ?, ?)";
