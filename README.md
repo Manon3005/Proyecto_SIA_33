@@ -31,7 +31,7 @@ String user = "root";      // su usuario
 String password = "12345"; // su contraseña
 ```
 
-Al importar el archivo `schema.sql`, se cargarán algunos clientes, empleados, sucursales y tickets de ejemplo para poder interactuar directamente con el sistema. 
+Al importar el archivo `schema.sql`, se cargarán algunos clientes, empleados y tickets de ejemplo para poder interactuar directamente con el sistema. 
 
 ### 👥 Autores
 
