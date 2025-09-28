@@ -1,6 +1,10 @@
 package com.model.domain;
 
 public class Cliente extends Usuario {
+
+    public Cliente() {
+        super("", "", "", "", "");
+    }
     
     public Cliente(String rut, String contrasena, String nombre, String apellido, String correo) {
         super(rut, contrasena, nombre, apellido, correo);
