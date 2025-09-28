@@ -8,6 +8,8 @@ import com.model.domain.Ticket;
 import com.model.repositories.ClienteRepository;
 import com.model.repositories.EmpleadoRepository;
 import com.model.repositories.TicketRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TicketService {
     private final TicketRepository ticketRepo;
@@ -52,5 +54,15 @@ public class TicketService {
         Cliente cliente = clienteRepo.buscarPorRut(clienteRut);
         cliente.getTickets().remove(ticket);
         ticketRepo.getTickets().remove(ticket);
+    }
+    
+    public List<Ticket> recuperarPendienteTicketList() {
+        List<Ticket> res = new ArrayList();
+        for (Ticket ticket: ticketRepo.getTickets()) {
+            if (ticket.getEstado() == EstadoTicket.PENDIENTE) {
+                res.add(ticket);
+            }
+        }
+        return res;
     }
 }

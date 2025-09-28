@@ -40,7 +40,6 @@ public class LoginController {
     private ClienteService clienteService;
     private EmpleadoService empleadoService;
     private TicketService ticketService;
-    private Empleado admin = new Empleado("20304050-4","lol300","marcos","vasquez","marcos.vasquez430@gmail.com",2303589.2);
     
     public void initialize() {
         ObservableList<String> options = FXCollections.observableArrayList(
@@ -63,6 +62,11 @@ public class LoginController {
     public void setTicketService(TicketService ticketService) {
         this.ticketService = ticketService;
     }
+    
+    public void clear() {
+        rutField.clear();
+        passwordField.clear();
+    }
        
     public void login() {
         if (userTypeChoiceBox.getValue().equals("Cliente")) {
@@ -75,8 +79,8 @@ public class LoginController {
                 alert.show();
             }
         } else {
-            if(rutField.getText().equals(admin.getRut())&& passwordField.getText().equals(admin.getContrasena())){
-                redirectToAdminPage(admin);
+            if (rutField.getText().equals("admin") && passwordField.getText().equals("admin")){
+                redirectToAdminPage();
             }else{
                 try {
                     Empleado empleado = empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText());
@@ -109,12 +113,12 @@ public class LoginController {
         }
     }
     
-    private void redirectToAdminPage(Empleado admin) {
+    private void redirectToAdminPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/view/AdminPage.fxml"));
             Parent root = loader.load();
             AdminController adminController = loader.getController();
-            adminController.displayUsername(admin);            
+            adminController.displayUsername("admin");            
             Stage stage = (Stage) rutField.getScene().getWindow();
             
             stage.setScene(new Scene(root));
@@ -131,6 +135,10 @@ public class LoginController {
 
             EmpleadoController empleadoController = loader.getController();
             empleadoController.setEmpleado(empleado);
+            empleadoController.setClienteService(clienteService);
+            empleadoController.setEmpleadoService(empleadoService);
+            empleadoController.setTicketService(ticketService);
+            empleadoController.actualizarTicketLists();
 
             Stage stage = (Stage) rutField.getScene().getWindow();
 

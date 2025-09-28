@@ -11,11 +11,13 @@ import com.model.domain.EstadoTicket;
 import com.model.domain.Ticket;
 import com.model.services.TicketService;
 import com.util.CsvUtils;
+import com.view.App;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -23,12 +25,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -79,6 +83,9 @@ public class ClienteController implements Initializable {
     @FXML
     Button buscarTicketButton;
     
+    @FXML
+    Button desconectarseButton;
+    
     private Cliente cliente;
     private TicketService ticketService;
     
@@ -123,7 +130,6 @@ public class ClienteController implements Initializable {
        
     public void actualizarTicketList(String research) {
         ticketList.setItems(FXCollections.observableArrayList());
-        System.out.println(cliente);
         List<Ticket> tickets = filtrarPorTitulo(cliente.getTickets(), research);
         for (Ticket ticket: tickets) {
             ticketList.getItems().add(ticket);
@@ -251,5 +257,18 @@ public class ClienteController implements Initializable {
         return lista.stream()
                 .filter(t -> t.getTitulo().toLowerCase().contains(busquedaLower))
                 .collect(Collectors.toList());
+    }
+    
+    public void desconectarse() {
+       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+       alert.setTitle("Mensaje de confirmacion");
+       alert.setHeaderText(null);
+       alert.setContentText("¿Estás seguro de que quieres cerrar sesión?");
+       Optional<ButtonType> option = alert.showAndWait();
+       
+       if(option.get().equals(ButtonType.OK)){
+            Stage stage = (Stage) desconectarseButton.getScene().getWindow();
+            App.logout(stage);
+        }
     }
 }

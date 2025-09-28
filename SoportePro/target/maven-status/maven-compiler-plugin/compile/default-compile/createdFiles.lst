@@ -5,6 +5,7 @@ com\model\services\ClienteService.class
 com\controller\LoginController.class
 com\model\services\TicketService.class
 module-info.class
+com\controller\EmpleadoController$1.class
 com\controller\EmpleadoController.class
 com\model\repositories\Repository.class
 com\model\services\EmpleadoService.class

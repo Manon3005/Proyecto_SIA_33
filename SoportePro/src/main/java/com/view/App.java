@@ -30,6 +30,7 @@ public class App extends Application {
     private static TicketService ticketService;
     private static ClienteService clienteService;
     private static EmpleadoService empleadoService;
+    private static LoginController loginController;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -43,7 +44,7 @@ public class App extends Application {
                
         FXMLLoader fxmlLoaderLogin = new FXMLLoader(App.class.getResource("LoginPage.fxml"));
         Parent root = fxmlLoaderLogin.load();
-        LoginController loginController = fxmlLoaderLogin.getController();
+        loginController = fxmlLoaderLogin.getController();
         loginController.setClienteService(clienteService);
         loginController.setEmpleadoService(empleadoService);
         loginController.setTicketService(ticketService);
@@ -73,5 +74,10 @@ public class App extends Application {
             alert.setHeaderText(e.getMessage());
             alert.show();
         }
+    }
+    
+    public static void logout(Stage stage) {
+        loginController.clear();
+        stage.setScene(scene);
     }
 }

@@ -20,5 +20,9 @@ public class ClienteService {
             }
         }
         throw new UserConnectionException();
-    }  
+    }
+    
+    public Cliente buscarPorRut(String rut) {
+        return clienteRepo.buscarPorRut(rut);
+    }
 }

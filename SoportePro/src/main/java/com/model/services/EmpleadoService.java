@@ -2,7 +2,11 @@ package com.model.services;
 
 import com.exceptions.UserConnectionException;
 import com.model.domain.Empleado;
+import com.model.domain.EstadoTicket;
+import com.model.domain.Ticket;
 import com.model.repositories.EmpleadoRepository;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 
 /**
@@ -24,5 +28,16 @@ public class EmpleadoService {
             }
         }
         throw new UserConnectionException();
-    }  
+    }
+    
+    public void cargarseTicket(Empleado empleado, Ticket ticket) {
+        empleado.agregarTicket(ticket);
+        ticket.setEmpleadoRut(empleado.getRut());
+        ticket.setEstado(EstadoTicket.EN_PROCESO);
+    }
+    
+    public void terminarTicket(Ticket ticket) {
+        ticket.setFechaFinalizacion(LocalDateTime.now(ZoneId.of("America/Santiago")));
+        ticket.setEstado(EstadoTicket.EN_EVALUACION);
+    }
 }

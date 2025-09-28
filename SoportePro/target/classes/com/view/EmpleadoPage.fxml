@@ -1,20 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controller.EmpleadoController">
    <children>
-      <Pane layoutX="10.0" layoutY="10.0" prefHeight="621.0" prefWidth="923.0">
+      <Pane prefHeight="629.0" prefWidth="932.0">
          <children>
-            <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EmpleadoPage.fxml" wrappingWidth="372.5924758911133">
+            <Text fx:id="bienvenidoText" layoutX="34.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido empleado!" wrappingWidth="372.5924758911133">
                <font>
-                  <Font size="40.0" />
+                  <Font size="24.0" />
                </font>
             </Text>
+            <ListView fx:id="ticketEnProcesoList" layoutX="34.0" layoutY="126.0" prefHeight="207.0" prefWidth="390.0" />
+            <Text layoutX="34.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets en proceso" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="446.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets pendientes" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e0e0e0" height="293.0" layoutX="445.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="423.0" />
+            <Text layoutX="446.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket selectionado" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="estadoText" layoutX="698.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="147.48120880126953">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextField fx:id="ticketTituloField" disable="true" layoutX="461.0" layoutY="119.0" prefHeight="25.0" prefWidth="190.0" />
+            <Label layoutX="462.0" layoutY="101.0" text="Título" />
+            <Label layoutX="463.0" layoutY="150.0" />
+            <TextArea fx:id="ticketDescripcionTextArea" disable="true" layoutX="462.0" layoutY="170.0" prefHeight="91.0" prefWidth="389.0" />
+            <Slider fx:id="ticketSatisfaccionSlider" disable="true" layoutX="598.0" layoutY="275.0" prefHeight="14.0" prefWidth="253.0" />
+            <Label layoutX="463.0" layoutY="151.0" text="Descripción" />
+            <ListView fx:id="ticketHistoricoList" layoutX="34.0" layoutY="367.0" prefHeight="207.0" prefWidth="390.0" />
+            <Text layoutX="34.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Histórico de tickets" wrappingWidth="372.5924758911133">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Label fx:id="ticketSatisfaccionLabel" layoutX="463.0" layoutY="274.0" text="Satisfacción del cliente" />
+            <ListView fx:id="ticketPendienteList" layoutX="445.0" layoutY="369.0" prefHeight="207.0" prefWidth="423.0" />
+            <TextField fx:id="ticketClienteField" disable="true" layoutX="460.0" layoutY="74.0" prefHeight="25.0" prefWidth="190.0" />
+            <Label layoutX="461.0" layoutY="56.0" text="Cliente" />
+            <Button fx:id="modificarTicketButton" layoutX="462.0" layoutY="302.0" mnemonicParsing="false" onAction="#modificarTicket" prefHeight="25.0" prefWidth="389.0" />
+            <Button fx:id="desconectarseButton" layoutX="797.0" layoutY="8.0" mnemonicParsing="false" onAction="#desconectarse" text="Desconectarse" />
          </children>
       </Pane>
+      <Accordion />
+      <Accordion />
    </children>
 </AnchorPane>

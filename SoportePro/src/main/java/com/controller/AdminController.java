@@ -9,7 +9,6 @@ import com.util.DBConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -489,10 +488,6 @@ public class AdminController implements Initializable{
        
        sortList.comparatorProperty().bind(addEmployee_tableView.comparatorProperty());
        addEmployee_tableView.setItems(sortList);
-       
-       
-       
-       
     }
     
     
@@ -574,8 +569,8 @@ public class AdminController implements Initializable{
         
     }
     
-    public void displayUsername(Empleado admin){
-        username.setText("Bienvenido " + admin.getNombre() + "!");
+    public void displayUsername(String nombre){
+        username.setText("Bienvenido " + nombre + "!");
     }
     
     public ObservableList<Empleado> salaryListData() throws SQLException{
