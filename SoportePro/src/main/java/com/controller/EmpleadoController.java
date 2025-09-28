@@ -8,17 +8,13 @@ import com.model.services.ClienteService;
 import com.model.services.EmpleadoService;
 import com.model.services.TicketService;
 import com.view.App;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -28,7 +24,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -76,9 +71,6 @@ public class EmpleadoController implements Initializable {
     @FXML
     Button modificarTicketButton;
 
-    private double x=0;
-    private double y= 0;
-    
     private Empleado empleado;
     private ClienteService clienteService;
     private EmpleadoService empleadoService;
