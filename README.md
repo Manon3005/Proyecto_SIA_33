@@ -33,12 +33,6 @@ String password = "12345"; // su contraseña
 
 Al importar el archivo `schema.sql`, se cargarán algunos clientes, empleados, sucursales y tickets de ejemplo para poder interactuar directamente con el sistema. 
 
-### 📖 Uso
-
-Una vez iniciado, podrá interactuar con el sistema a través de un **menú en consola**, que permite:  
-- Agregar manualmente tickets.  
-- Listar los tickets asociados a cada cliente registrado.  
-
 ### 👥 Autores
 
 - *Felipe MORALES*
