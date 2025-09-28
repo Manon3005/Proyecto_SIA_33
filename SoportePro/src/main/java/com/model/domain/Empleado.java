@@ -4,7 +4,7 @@ public class Empleado extends Usuario {
     
     private double salario;
 
-    public Empleado(String rut, String contrasena, String nombre, String apellido, String correo,Double salario){
+    public Empleado(String rut, String contrasena, String nombre, String apellido, String correo, Double salario){
         super(rut, contrasena, nombre, apellido, correo);
         this.salario = salario;
     }

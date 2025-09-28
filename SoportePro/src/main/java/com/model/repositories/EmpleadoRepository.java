@@ -57,7 +57,7 @@ public class EmpleadoRepository extends Repository {
     
     @Override
     public void cargarDatos() {
-        String sql = "SELECT rut, contrasena, nombre, apellido, correo FROM empleado";
+        String sql = "SELECT rut, contrasena, nombre, apellido, correo, salario FROM empleado";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -68,7 +68,8 @@ public class EmpleadoRepository extends Repository {
                     rs.getString("contrasena"),
                     rs.getString("nombre"),
                     rs.getString("apellido"),
-                    rs.getString("correo"),Double.valueOf(rs.getString("salario"))
+                    rs.getString("correo"),
+                    Double.valueOf(rs.getString("salario"))
                 );
                 empleados.add(e);
             }
@@ -80,7 +81,7 @@ public class EmpleadoRepository extends Repository {
     @Override
     public void guardarDatos() {
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "REPLACE INTO empleado (rut, contrasena, nombre, apellido, correo,salario) VALUES (?, ?, ?, ?, ?,?)";
+            String sql = "REPLACE INTO empleado (rut, contrasena, nombre, apellido, correo, salario) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             for (Empleado e : empleados) {

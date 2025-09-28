@@ -11,6 +11,7 @@ com\model\services\EmpleadoService.class
 com\model\repositories\TicketRepository.class
 com\model\repositories\EmpleadoRepository.class
 com\util\CsvUtils$1.class
+com\controller\AdminController.class
 com\model\domain\Usuario.class
 com\controller\ClienteController.class
 com\exceptions\InformationMissingException.class
