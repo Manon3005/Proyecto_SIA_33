@@ -40,7 +40,8 @@ public class LoginController {
     private ClienteService clienteService;
     private EmpleadoService empleadoService;
     private TicketService ticketService;
-        
+    private Empleado admin = new Empleado("20304050-4","lol300","marcos","vasquez","marcos.vasquez430@gmail.com",2303589.2);
+    
     public void initialize() {
         ObservableList<String> options = FXCollections.observableArrayList(
             "Cliente",
@@ -74,13 +75,17 @@ public class LoginController {
                 alert.show();
             }
         } else {
-            try {
-                Empleado empleado = empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText());
-                redirectToEmpleadoPage(empleado);
-            } catch (UserConnectionException e) {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setHeaderText(e.getMessage());
-                alert.show();
+            if(rutField.getText().equals(admin.getRut())&& passwordField.getText().equals(admin.getContrasena())){
+                redirectToAdminPage(admin);
+            }else{
+                try {
+                    Empleado empleado = empleadoService.conectarEmpleado(rutField.getText(), passwordField.getText());
+                    redirectToEmpleadoPage(empleado);
+                } catch (UserConnectionException e) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText(e.getMessage());
+                    alert.show();
+                }
             }
         }
     }
@@ -97,6 +102,21 @@ public class LoginController {
 
             Stage stage = (Stage) rutField.getScene().getWindow();
 
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void redirectToAdminPage(Empleado admin) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/view/AdminPage.fxml"));
+            Parent root = loader.load();
+            AdminController adminController = loader.getController();
+            adminController.displayUsername(admin);            
+            Stage stage = (Stage) rutField.getScene().getWindow();
+            
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
